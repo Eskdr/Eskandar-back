@@ -56,13 +56,7 @@ public class Database {
         return eskdrDB.getCollection(connection);
     }
 
-    public boolean close() {
-        if (eskdrClient != null) {
-            eskdrClient.close();
-
-            return false; // close success
-        }
-
-        return true; //no connected client
+    public void close() {
+        eskdrClient.close();
     }
 }

@@ -4,7 +4,7 @@ public class SearchVO {
     private String id;
     private String voice;
     private float lat, lng;
-    private boolean secret; // 0=public, 1=private
+    private boolean secret;
 
     public String getId() {
         return id;
@@ -38,7 +38,9 @@ public class SearchVO {
         this.lng = lng;
     }
 
-    public boolean isSecret() { return secret; }
+    public boolean isSecret() {
+        return secret;
+    }
 
     public void setSecret(boolean secret) {
         this.secret = secret;

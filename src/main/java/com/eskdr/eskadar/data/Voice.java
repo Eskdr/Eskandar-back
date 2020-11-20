@@ -7,16 +7,17 @@ public class Voice {
 
     private static final int defaultWriteNum = 3;
     private static final String voiceColName = "voice";
-    private final MongoCollection<Document> userColl;
 
-    private Database eskdr = null;
+    private final Database eskdr;
+
+    private final MongoCollection<Document> userColl;
 
     public Voice() {
         eskdr = new Database();
         userColl = eskdr.connect(voiceColName);
     }
 
-    public boolean close() {
-        return eskdr.close();
+    public void close() {
+        eskdr.close();
     }
 }
