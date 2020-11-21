@@ -10,5 +10,6 @@
         <module name="eskadar.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="14" />
   </component>
 </project>
