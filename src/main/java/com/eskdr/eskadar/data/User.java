@@ -7,23 +7,20 @@ import org.bson.Document;
 public class User {
 
     private static final int defaultWriteNum = 3;
-    private static final String userColName = "user";
 
-    private final Database eskdr;
-    private final MongoCollection<Document> userColl;
+    private final MongoCollection<Document> userCollection;
 
     public User() {
-        eskdr = new Database();
-
-        userColl = eskdr.connect(userColName);
+        this.userCollection = Database.getDatabase().getUserCollection();
     }
+
 
     public int login(String id) {
         MongoCursor<Document> cursor;
-        Document document = new Document();
+        Document userInformation = new Document();
 
-        document.get(id);
-        cursor = userColl.find(document).iterator();
+        userInformation.get(id);
+        cursor = this.userCollection.find(userInformation).iterator();
 
         while (cursor.hasNext()) {
             Object writeNum = cursor.next().get(id);
@@ -36,15 +33,11 @@ public class User {
     }
 
     private int signUp(String id) {
-        Document document = new Document();
+        Document userInformation = new Document();
 
-        document.put(id, defaultWriteNum);
-        userColl.insertOne(document);
+        userInformation.put(id, defaultWriteNum);
+        userCollection.insertOne(userInformation);
 
         return defaultWriteNum;
-    }
-
-    public void close() {
-        eskdr.close();
     }
 }
