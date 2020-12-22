@@ -16,9 +16,26 @@ public class Database {
     private static final String DBName = "eskdr";
     private static final String portFile = "port.txt"; // todo(@hw : yaml에서 설정 가져오기)
     private static final String hostFile = "host.txt";
+    private static final String userCollectionName = "user";
+    private static final String voiceCollectionName = "voice";
 
-    private MongoClient eskdrClient = null;
+    private static MongoClient eskdrClient = null;
+    private static MongoCollection<Document> userCollection = null;
+    private static MongoCollection<Document> voiceCollection = null;
     private MongoDatabase eskdrDB = null;
+
+    private Database() {
+        connect();
+    }
+
+    public static Database getDatabase() {
+        return databaseInstance.instance;
+    }
+
+    public static void close() {
+        if (eskdrClient != null)
+            eskdrClient.close();
+    }
 
     private String readConnInfo(String filename) {
         String line = null;
@@ -41,7 +58,7 @@ public class Database {
         return line;
     }
 
-    public MongoCollection<Document> connect(String connection) {
+    private void connect() {
         int port = Integer.parseInt(readConnInfo(portFile));
         String host = readConnInfo(hostFile);
 
@@ -53,10 +70,19 @@ public class Database {
 
         eskdrDB = eskdrClient.getDatabase(DBName);
 
-        return eskdrDB.getCollection(connection);
+        userCollection = eskdrDB.getCollection(userCollectionName);
+        voiceCollection = eskdrDB.getCollection(voiceCollectionName);
     }
 
-    public void close() {
-        eskdrClient.close();
+    public MongoCollection<Document> getUserCollection() {
+        return userCollection;
+    }
+
+    public MongoCollection<Document> getVoiceCollection() {
+        return voiceCollection;
+    }
+
+    private static class databaseInstance {
+        private static final Database instance = new Database();
     }
 }
