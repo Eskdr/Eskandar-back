@@ -22,7 +22,7 @@ public class VoiceController {
 
     @GetMapping("")
     public SearchVO saveVoice(SearchVO searchVO) {
-        int writeNum = 0;
+        int writeNum = 0;sdfsdfsdf
         String userId = searchVO.getId();
         boolean secret = searchVO.isSecret();
 
